@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>digital clock</title>
+</head>
+<style>
+.outer{
+   padding-left: 35%;
+   
+}
+#stopwatch {
+    font-size: 80px;
+    margin: 50px auto;
+    display: flex;
+  flex-wrap: wrap;
+  }
+  button{
+    width: 150px;
+    height: 50px;
+    font-size: 30px;
+    background-color: rgb(145, 199, 10);
+    border: 2px solid black;
+    border-radius: 15%;
+    cursor: pointer;
+  }
+  button:hover{
+    background-color: azure;
+
+  }
+  </style>
+<body>
+    <div class="outer">
+    <div id="stopwatch">
+  <div id="minutes">00</div>:
+  <div id="seconds">00</div>:
+  <div id="centiseconds">00</div>
+</div>
+<button id="start-stop">Start</button>
+<button id="reset">Reset</button>
+</div>
+<script>
+    const stopwatch = document.querySelector("#stopwatch");
+const minutes = document.querySelector("#minutes");
+const seconds = document.querySelector("#seconds");
+const centiseconds = document.querySelector("#centiseconds");
+const startStop = document.querySelector("#start-stop");
+const reset = document.querySelector("#reset");
+
+let intervalId;
+let centisecondsCount = 0;
+let secondsCount = 0;
+let minutesCount = 0;
+let isRunning = false;
+
+startStop.addEventListener("click", function() {
+  if (!isRunning) {
+    intervalId = setInterval(function() {
+      centisecondsCount++;
+      if (centisecondsCount === 60) {
+        centisecondsCount = 0;
+        secondsCount++;
+      }
+      if (secondsCount === 60) {
+        secondsCount = 0;
+        minutesCount++;
+      }
+      minutes.textContent = pad(minutesCount);
+      seconds.textContent = pad(secondsCount);
+      centiseconds.textContent = pad(centisecondsCount);
+    }, 10);
+    isRunning = true;
+    startStop.textContent = "Stop";
+  } else {
+    clearInterval(intervalId);
+    isRunning = false;
+    startStop.textContent = "Start";
+  }
+});
+
+reset.addEventListener("click", function() {
+  clearInterval(intervalId);
+  minutes.textContent = "00";
+  seconds.textContent = "00";
+  centiseconds.textContent = "00";
+  centisecondsCount = 00;
+  secondsCount = 00;
+  minutesCount = 00;
+  isRunning = false;
+  startStop.textContent = "Start";
+});
+
+function pad(number) {
+  return number < 10 ? "0" + number : "" + number;
+}
+
+</script>
+</body>
+</html>
